@@ -13,7 +13,7 @@ import {
   Alert,
   BackHandler,
 } from 'react-native';
-class Home extends Component {
+class Profile extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -57,58 +57,46 @@ class Home extends Component {
           style={tampilan.kontainergambar}
           onPress={() => console.log('Hello')}>
           <Image
-            source={require('../images/voting.png')}
+            source={require('../images/me.png')}
             style={tampilan.gambar}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={tampilan.kontainershape}
-          onPress={() => console.log('Hello')}>
-          <Image
-            source={require('../images/shape.png')}
-            style={tampilan.shape}
           />
         </TouchableOpacity>
         <Text
           style={{
             color: '#ffff',
-            fontSize: 30,
+            fontSize: 20,
+            textAlign: 'center',
             fontWeight: 'bold',
-            marginTop: -400,
-            textAlign: 'center'
+            marginTop: -100,
+            marginLeft: 20,
           }}>
-          Join E-Voting
+         Reyna Liam
         </Text>
-        <TextInput
-          value={this.state.password}
-          style={tampilan.inputtext}
-          onChangeText={value => this.setState({password: value})}
-          textAlign={'center'}
-          placeholder='Input Pin Kode'
-        />
-        <TouchableOpacity 
-          style={tampilan.button}
-          onPress={() => this.props.navigation.navigate('Voting')}>
-          <Text style={{color: '#ffff', fontWeight: 'bold', fontSize: 15}}>
-            Submit
-          </Text>
-        </TouchableOpacity>
+        <Text
+          style={{
+            color: '#ffff',
+            textAlign: 'center',
+            fontSize: 15,
+            marginTop: 10,
+            marginLeft: 20,
+          }}>
+         Student
+        </Text>
         <TouchableOpacity
-          style={tampilan.kontainerbutton}
+          style={tampilan.kontainerbox}
           onPress={() => console.log('Hello')}>
           <Image
-            source={require('../images/result_btn.png')}
-            style={tampilan.resultbtn}
+            source={require('../images/box.png')}
+            style={tampilan.box}
           />
-          <Image
-            source={require('../images/voting_btn.png')}
-            style={tampilan.votingbtn}
-          />
-          <TouchableOpacity onPress={() => this.props.navigation.navigate('Profile')}>
-          <Image
-            source={require('../images/prof_btn.png')}
-            style={tampilan.profbtn}></Image>
-          </TouchableOpacity>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={tampilan.button}
+          onPress={() => this.props.navigation.navigate('Home')}>
+          <Text style={{color: '#ffff', fontWeight: 'bold', fontSize: 20}}>
+            Sign Out
+          </Text>
         </TouchableOpacity>
       </ScrollView>
     );
@@ -117,16 +105,14 @@ class Home extends Component {
 
 const tampilan = StyleSheet.create({
   button: {
-    backgroundColor: '#C69B7B',
-    paddingVertical: 20,
+    backgroundColor: '#0A0A0A',
+    paddingVertical: 10,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 30,
+    marginTop: 20,
     marginHorizontal: 20,
     borderRadius: 50,
     elevation: 3,
-    width: 120,
-    marginLeft: 150,
   },
   inputtext: {
     borderWidth: 0.5,
@@ -136,52 +122,27 @@ const tampilan = StyleSheet.create({
     marginTop: 10,
     backgroundColor: '#F1F1F1',
     color: '#000B49',
-    width: 200,
-    marginLeft: 110,
   },
   switch: {
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 20,
   },
-   gambar: {
-    width: 150,
-    height: 150,
-    marginTop: 30,
+  gambar: {
+    width: 415,
+    height: 220,
+    marginTop: 10,
     marginHorizontal: 55,
   },
   kontainergambar: {
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 40,
+    marginTop: -10,
   },
-  kontainerbutton: {
-    flex: 1,
-    flexDirection: 'row',
-    marginTop: 30,
-    justifyContent: 'space-around',
-  },
-   shape: {
-    width: 415,
-    marginTop: 10,
-  },
-  
-  resultbtn: {
-    marginTop: 10,
-
-  },
-  
-  votingbtn: {
-    marginTop: 10,
-  },
-  
-  profbtn: {
-    marginTop: 10,
-  },
-  kontainershape: {
+  kontainerbox: {
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: -130,
+    marginTop: 10,
   },
   headcop: {
     backgroundColor: '#FFABE1',
@@ -192,8 +153,8 @@ const tampilan = StyleSheet.create({
   },
   container: {
     flex: 0.5,
-    backgroundColor: '#ffff',
+    backgroundColor: '#F5F5F5',
   },
   
 });
-export default Home;
+export default Profile;
