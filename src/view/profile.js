@@ -90,10 +90,36 @@ class Profile extends Component {
             style={tampilan.box}
           />
         </TouchableOpacity>
-
+        <Text
+          style={{
+            color: '#0A0A0A',
+            fontSize: 15,
+            marginTop: -300,
+            marginLeft: 100,
+          }}>
+          Edit Profile
+        </Text>
+        <Text
+          style={{
+            color: '#0A0A0A',
+            fontSize: 15,
+            marginTop: 20,
+            marginLeft: 100,
+          }}>
+          Edit Bio
+        </Text>
+        <Text
+          style={{
+            color: '#0A0A0A',
+            fontSize: 15,
+            marginTop: 20,
+            marginLeft: 100,
+          }}>
+          Change Password
+        </Text>
         <TouchableOpacity
           style={tampilan.button}
-          onPress={() => this.props.navigation.navigate('Home')}>
+          onPress={() => this.props.navigation.navigate('Load')}>
           <Text style={{color: '#ffff', fontWeight: 'bold', fontSize: 20}}>
             Sign Out
           </Text>
@@ -109,10 +135,12 @@ const tampilan = StyleSheet.create({
     paddingVertical: 10,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 20,
+    marginTop: 200,
     marginHorizontal: 20,
     borderRadius: 50,
     elevation: 3,
+    width: 300,
+    marginLeft: 50,
   },
   inputtext: {
     borderWidth: 0.5,

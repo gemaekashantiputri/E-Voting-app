@@ -19,6 +19,7 @@ const MyStack = () => {
           name=" "
           component={Load}
         />
+        <Stack.Screen name="Load" component={Load} />
         <Stack.Screen name="Signin" component={Signin} />
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="Voting" component={Voting} />
