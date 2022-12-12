@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import React, {Component} from 'react';
+import React, {useState, useEffect, Component} from 'react';
 import {
   Text,
   View,
@@ -13,44 +13,26 @@ import {
   Alert,
   BackHandler,
 } from 'react-native';
-class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      value: true,
-      username: '',
-    };
+
+const Voting = () => {
+  const [dataServer, setDataServer] = useState([]);
+  useEffect(() => {
+    ambilData();
+  }, []);
+
+  function ambilData() {
+    fetch('http://192.168.1.4:3000/voting')
+    .then(response => response.json)
+    .then(json => {
+      setDataServer(json);
+      console.log(json);
+    })
+    .catch(error => {
+      console.error(error);
+    });
   }
 
-  jikaKembali = () => {
-    Alert.alert('Warning', 'Apakah Mau Keluar Aplikasi?', [
-      {
-        text: 'Tidak',
-        onPress: () => null,
-        style: 'cancel',
-      },
-      {
-        text: 'Iya',
-        onPress: () => BackHandler.exitApp(),
-      },,
-    ]);
-    return true;
-  };
-
-  componentDidMount() {
-    this.BackHandler = BackHandler.addEventListener(
-      'hardwareBackPress',
-      this.jikaKembali,
-    );
-  }
-
-  componentWillUnmount() {
-    this.BackHandler.remove();
-  }
-
-
-  render() {
-    return  (
+  return  (
       <ScrollView style={tampilan.container}>
         <StatusBar barStyle="dark-content" backgroundColor="#0A0A0A" />
         <Text
@@ -66,20 +48,19 @@ class App extends Component {
         <TouchableOpacity
           style={tampilan.kontainercard} 
           onPress={() => console.log('Hello')}>
-          <Image
-            source={require('../images/card.png')}
-            style={tampilan.card}
-          />
-          <Image
-            source={require('../images/card.png')}
-            style={tampilan.card}
-          /><Image
-            source={require('../images/card.png')}
-            style={tampilan.card}
-          /><Image
-            source={require('../images/card.png')}
-            style={tampilan.card}
-          />
+          data={dataServer}
+          renderItem={({item, index}) => {
+
+          <><Image
+            source={item.option1}
+            style={tampilan.card} /><Image
+            source={item.option1}
+            style={tampilan.card} /><Image
+            source={item.option1}
+            style={tampilan.card} /><Image
+            source={item.option1}
+            style={tampilan.card} /></>
+          }}
         </TouchableOpacity>
         <TouchableOpacity
           style={tampilan.button}
@@ -90,7 +71,7 @@ class App extends Component {
         </TouchableOpacity>
       </ScrollView>
     );
-  }
+  
 }
 
 const tampilan = StyleSheet.create({
@@ -148,4 +129,4 @@ const tampilan = StyleSheet.create({
   },
   
 });
-export default App;
+export default Voting;
