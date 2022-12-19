@@ -1,41 +1,39 @@
 /* eslint-disable prettier/prettier */
-import React, {useState, useEffect, Component} from 'react';
+import React, { useState, useEffect } from 'react';
+import axios, { Axios } from 'axios';
 import {
   Text,
   View,
   StatusBar,
   Image,
   TouchableOpacity,
-  Switch,
-  TextInput,
-  ScrollView,
   StyleSheet,
-  Alert,
-  BackHandler,
+  ScrollView,
+  Flatlist,
 } from 'react-native';
 
-const Voting = () => {
-  const [dataServer, setDataServer] = useState([]);
-  useEffect(() => {
-    ambilData();
-  }, []);
+export default function Voting() {
 
-  function ambilData() {
-    fetch('http://192.168.1.4:3000/voting')
-    .then(response => response.json)
-    .then(json => {
-      setDataServer(json);
-      console.log(json);
-    })
-    .catch(error => {
-      console.error(error);
-    });
-  }
+  const [ data, setData ] = useState([]); 
+
+  useEffect(() => {
+    getData()
+  }, [])
+  
+   const getData = async () => {
+    try {
+      const res = await axios.get('http://192.168.1.6:3000/voting');
+      setData(res.data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   return  (
       <ScrollView style={tampilan.container}>
         <StatusBar barStyle="dark-content" backgroundColor="#0A0A0A" />
         <Text
+          // eslint-disable-next-line react-native/no-inline-styles
           style={{
             color: '#0A0A0A',
             fontSize: 30,
@@ -45,34 +43,46 @@ const Voting = () => {
           }}>
           Candidate
         </Text>
+        <View>
+        {data.map((item) => (
+        <View key={item.id}>
+          <Text>{item.title}</Text>
+          <Text>{item.pin}</Text>
+        </View>
+      ))}
+        </View>
         <TouchableOpacity
-          style={tampilan.kontainercard} 
+          style={tampilan.kontainercard}
           onPress={() => console.log('Hello')}>
-          data={dataServer}
-          renderItem={({item, index}) => {
-
-          <><Image
-            source={item.option1}
-            style={tampilan.card} /><Image
-            source={item.option1}
-            style={tampilan.card} /><Image
-            source={item.option1}
-            style={tampilan.card} /><Image
-            source={item.option1}
-            style={tampilan.card} /></>
-          }}
+          <Image
+            source={require('../images/card.png')}
+            style={tampilan.card}
+          />
+          <Image
+            source={require('../images/card.png')}
+            style={tampilan.card}
+          /><Image
+            source={require('../images/card.png')}
+            style={tampilan.card}
+          /><Image
+            source={require('../images/card.png')}
+            style={tampilan.card}
+          />
         </TouchableOpacity>
         <TouchableOpacity
-          style={tampilan.button}
-          onPress={() => this.props.navigation.navigate('Home')}>
-          <Text style={{color: '#ffff', fontWeight: 'bold', fontSize: 20}}>
+          style={tampilan.button}>
+          <Text style={{
+            color: '#ffff',
+            fontWeight: 'bold',
+            fontSize: 20}}>
             Start Voting
           </Text>
         </TouchableOpacity>
       </ScrollView>
     );
-  
-}
+  }
+
+
 
 const tampilan = StyleSheet.create({
   button: {
@@ -114,7 +124,6 @@ const tampilan = StyleSheet.create({
   card: {
     marginLeft: 10,
     marginTop: 10,
-    
   },
   headcop: {
     backgroundColor: '#FFABE1',
@@ -127,6 +136,5 @@ const tampilan = StyleSheet.create({
     flex: 0.5,
     backgroundColor: '#ffff',
   },
-  
 });
-export default Voting;
+

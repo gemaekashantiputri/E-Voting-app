@@ -14,14 +14,7 @@ import {
 } from 'react-native';
 
 class Load extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      header: 'Home',
-      value: true,
-      username: '',
-    };
-  }
+  
 
   jikaKembali = () => {
     Alert.alert('Warning', 'Apakah Mau Keluar Aplikasi?', [

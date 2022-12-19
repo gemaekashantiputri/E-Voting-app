@@ -100,10 +100,12 @@ class Home extends Component {
             source={require('../images/result_btn.png')}
             style={tampilan.resultbtn}
           />
+          <TouchableOpacity onPress={() => this.props.navigation.navigate('Create')}>
           <Image
             source={require('../images/voting_btn.png')}
             style={tampilan.votingbtn}
           />
+          </TouchableOpacity>
           <TouchableOpacity onPress={() => this.props.navigation.navigate('Profile')}>
           <Image
             source={require('../images/prof_btn.png')}

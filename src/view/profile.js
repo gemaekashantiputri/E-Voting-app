@@ -1,4 +1,5 @@
 /* eslint-disable prettier/prettier */
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, {Component} from 'react';
 import {
   Text,
@@ -13,43 +14,16 @@ import {
   Alert,
   BackHandler,
 } from 'react-native';
-class Profile extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      value: true,
-      username: '',
-    };
-  }
 
-  jikaKembali = () => {
-    Alert.alert('Warning', 'Apakah Mau Keluar Aplikasi?', [
-      {
-        text: 'Tidak',
-        onPress: () => null,
-        style: 'cancel',
-      },
-      {
-        text: 'Iya',
-        onPress: () => BackHandler.exitApp(),
-      },,
-    ]);
-    return true;
+export default function Profile ({navigation}){
+  const Signout = async () => {
+    try {
+      await AsyncStorage.removeItem('AccessToken');
+      navigation.replace('Load');
+    } catch (error) {
+      console.error(error);
+    }
   };
-
-  componentDidMount() {
-    this.BackHandler = BackHandler.addEventListener(
-      'hardwareBackPress',
-      this.jikaKembali,
-    );
-  }
-
-  componentWillUnmount() {
-    this.BackHandler.remove();
-  }
-
-
-  render() {
     return  (
       <ScrollView style={tampilan.container}>
         <StatusBar barStyle="dark-content" backgroundColor="#0A0A0A" />
@@ -119,7 +93,7 @@ class Profile extends Component {
         </Text>
         <TouchableOpacity
           style={tampilan.button}
-          onPress={() => this.props.navigation.navigate('Load')}>
+          onPress={Signout}>
           <Text style={{color: '#ffff', fontWeight: 'bold', fontSize: 20}}>
             Sign Out
           </Text>
@@ -127,7 +101,7 @@ class Profile extends Component {
       </ScrollView>
     );
   }
-}
+
 
 const tampilan = StyleSheet.create({
   button: {
@@ -185,4 +159,4 @@ const tampilan = StyleSheet.create({
   },
   
 });
-export default Profile;
+

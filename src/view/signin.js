@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
-import React, {Component} from 'react';
+import React, { useState, Component} from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   Text,
   View,
@@ -13,43 +14,84 @@ import {
   Alert,
   BackHandler,
 } from 'react-native';
-class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      value: true,
-      username: '',
-    };
-  }
+import { user_login } from '../api/user_api';
 
-  jikaKembali = () => {
-    Alert.alert('Warning', 'Apakah Mau Keluar Aplikasi?', [
-      {
-        text: 'Tidak',
-        onPress: () => null,
-        style: 'cancel',
-      },
-      {
-        text: 'Iya',
-        onPress: () => BackHandler.exitApp(),
-      },,
-    ]);
-    return true;
+export default function Signin({navigation}) {
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [seePassword, setSeePassword] = useState(true);
+  const [checkValidEmail, setCheckValidEmail] = useState(false);
+
+ const handleCheckEmail = text => {
+    let re = /\S+@\S+\.\S+/;
+    let regex = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im;
+
+    setEmail(text);
+    if (re.test(text) || regex.test(text)) {
+      setCheckValidEmail(false);
+    } else {
+      setCheckValidEmail(true);
+    }
   };
 
-  componentDidMount() {
-    this.BackHandler = BackHandler.addEventListener(
-      'hardwareBackPress',
-      this.jikaKembali,
-    );
-  }
+  const checkPasswordValidity = value => {
+    const isNonWhiteSpace = /^\S*$/;
+    if (!isNonWhiteSpace.test(value)) {
+      return 'Password must not contain Whitespaces.';
+    }
 
-  componentWillUnmount() {
-    this.BackHandler.remove();
-  }
+    const isContainsUppercase = /^(?=.*[A-Z]).*$/;
+    if (!isContainsUppercase.test(value)) {
+      return 'Password must have at least one Uppercase Character.';
+    }
 
+    const isContainsLowercase = /^(?=.*[a-z]).*$/;
+    if (!isContainsLowercase.test(value)) {
+      return 'Password must have at least one Lowercase Character.';
+    }
 
-  render() {
+    const isContainsNumber = /^(?=.*[0-9]).*$/;
+    if (!isContainsNumber.test(value)) {
+      return 'Password must contain at least one Digit.';
+    }
+
+    const isValidLength = /^.{8,16}$/;
+    if (!isValidLength.test(value)) {
+      return 'Password must be 8-16 Characters Long.';
+    }
+
+    // const isContainsSymbol =
+    //   /^(?=.*[~`!@#$%^&*()--+={}\[\]|\\:;"'<>,.?/_₹]).*$/;
+    // if (!isContainsSymbol.test(value)) {
+    //   return 'Password must contain at least one Special Symbol.';
+    // }
+
+    return null;
+  };
+
+  const handleLogin = () => {
+    const checkPassowrd = checkPasswordValidity(password);
+    if (!checkPassowrd) {
+      user_login({
+        email: email.toLocaleLowerCase(),
+        password: password,
+      })
+        .then(result => {
+          console.log(result);
+          if (result.status == 200) {
+            AsyncStorage.setItem('AccessToken', result.data.token);
+            navigation.replace('Home');
+          }
+        })
+        .catch(err => {
+          console.error(err);
+        });
+    } else {
+      alert(checkPassowrd);
+    }
+  };
+
     return  (
       <ScrollView style={tampilan.container}>
         <StatusBar barStyle="dark-content" backgroundColor="#0A0A0A" />
@@ -82,10 +124,16 @@ class App extends Component {
          Username
         </Text>
         <TextInput
-          value={this.state.username}
-          style={tampilan.inputtext}
-          onChangeText={value => this.setState({username: value})}
+           style={tampilan.input}
+          placeholder="Email"
+          value={email}
+          onChangeText={text => handleCheckEmail(text)}
         />
+        {checkValidEmail ? (
+        <Text style={tampilan.textFailed}>Wrong format email</Text>
+      ) : (
+        <Text style={tampilan.textFailed}> </Text>
+      )}
         <Text
           style={{
             color: '#0A0A0A',
@@ -96,24 +144,49 @@ class App extends Component {
          Password
         </Text>
         <TextInput
-          value={this.state.password}
-          style={tampilan.inputtext}
-          onChangeText={value => this.setState({password: value})}
+           style={tampilan.input}
+          placeholder="Password"
+          value={password}
+          onChangeText={text => setPassword(text)}
         />
 
+         {email === '' || password === '' || checkValidEmail === true ? (
         <TouchableOpacity
           style={tampilan.button}
-          onPress={() => this.props.navigation.navigate('Home')}>
-          <Text style={{color: '#ffff', fontWeight: 'bold', fontSize: 20}}>
-            Sign in
+          onPress={handleLogin}>
+          <Text style={{
+            color: '#ffff',
+            fontSize: 20,
+          }}>Login
           </Text>
         </TouchableOpacity>
+      ) : (
+        <TouchableOpacity style={tampilan.button} onPress={handleLogin}>
+          <Text style={{
+            color: '#ffff',
+            fontSize: 20,
+          }}>Login
+          </Text>
+        </TouchableOpacity>
+      )}
       </ScrollView>
     );
   }
-}
+
 
 const tampilan = StyleSheet.create({
+  textFailed: {
+    alignSelf: 'flex-end',
+    color: 'red',
+  },
+  buttonDisable: {
+    padding: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'grey',
+    borderRadius: 5,
+    marginTop: 25,
+  },
   button: {
     backgroundColor: '#0A0A0A',
     paddingVertical: 20,
@@ -162,4 +235,4 @@ const tampilan = StyleSheet.create({
   },
   
 });
-export default App;
+

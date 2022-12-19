@@ -8,6 +8,7 @@ import Signin from './src/view/signin';
 import Home from './src/view/home';
 import Voting from './src/view/voting';
 import Profile from './src/view/profile';
+import Create from './src/view/create';
 
 const Stack = createNativeStackNavigator();
 
@@ -24,6 +25,7 @@ const MyStack = () => {
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="Voting" component={Voting} />
         <Stack.Screen name="Profile" component={Profile} />
+        <Stack.Screen name="Create" component={Create} />
       </Stack.Navigator>
     </NavigationContainer>
   );
