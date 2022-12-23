@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 import React, { useState, useEffect } from 'react';
 import axios, { Axios } from 'axios';
+import {Card, Button , Title ,Paragraph } from 'react-native-paper';
 import {
   Text,
   View,
@@ -22,7 +23,7 @@ export default function Voting() {
   
    const getData = async () => {
     try {
-      const res = await axios.get('http://192.168.1.6:3000/voting');
+      const res = await axios.get('http://192.168.43.146:3000/voting');
       setData(res.data);
     } catch (err) {
       console.error(err);
@@ -48,26 +49,25 @@ export default function Voting() {
         <View key={item.id}>
           <Text>{item.title}</Text>
           <Text>{item.pin}</Text>
+          <Text>{item.option.value}</Text>
         </View>
       ))}
         </View>
-        <TouchableOpacity
-          style={tampilan.kontainercard}
-          onPress={() => console.log('Hello')}>
-          <Image
-            source={require('../images/card.png')}
-            style={tampilan.card}
-          />
-          <Image
-            source={require('../images/card.png')}
-            style={tampilan.card}
-          /><Image
-            source={require('../images/card.png')}
-            style={tampilan.card}
-          /><Image
-            source={require('../images/card.png')}
-            style={tampilan.card}
-          />
+        <TouchableOpacity>
+        {data.map((item) => (
+        <Card key={item.id}>
+          <Card style={tampilan.card2}>
+            <Card.Content>
+                {item.option && item.option.map(data => {
+                  <Card key={item.id}>
+                    {data.value}
+                  </Card>
+                })}
+                <Title>{item.value}</Title>
+            </Card.Content>
+          </Card>
+        </Card>
+        ))}
         </TouchableOpacity>
         <TouchableOpacity
           style={tampilan.button}>
@@ -85,6 +85,10 @@ export default function Voting() {
 
 
 const tampilan = StyleSheet.create({
+  card2 :{
+        alignContent:'center',
+        margin:37
+  },
   button: {
     backgroundColor: '#0A0A0A',
     paddingVertical: 20,

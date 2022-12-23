@@ -1,6 +1,8 @@
 /* eslint-disable prettier/prettier */
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import React, {Component} from 'react';
+import axios from 'axios';
+import Snackbar from 'react-native-snackbar';
+import React, { useEffect, useState, Component} from 'react';
 import {
   Text,
   View,
@@ -16,6 +18,34 @@ import {
 } from 'react-native';
 
 export default function Profile ({navigation}){
+  
+const showSnackbar = () => { 
+ Snackbar.show({
+  text: 'Its Your Profile',
+  duration: Snackbar.LENGTH_INDEFINITE,
+  action: {
+    text: 'Ok',
+    textColor: 'green',
+    onPress: () => { /* Do something. */ },
+  },
+});
+};
+
+  const [ data, setData ] = useState([]); 
+
+  useEffect(() => {
+    getData()
+  }, [])
+  
+   const getData = async () => {
+    try {
+      const res = await axios.get('http://192.168.1.6:3000/api');
+      setData(res.data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   const Signout = async () => {
     try {
       await AsyncStorage.removeItem('AccessToken');
@@ -29,29 +59,29 @@ export default function Profile ({navigation}){
         <StatusBar barStyle="dark-content" backgroundColor="#0A0A0A" />
         <TouchableOpacity
           style={tampilan.kontainergambar}
-          onPress={() => console.log('Hello')}>
+          onPress={showSnackbar}>
           <Image
             source={require('../images/me.png')}
             style={tampilan.gambar}
           />
         </TouchableOpacity>
-        <Text
+        <View>
+          <Text 
           style={{
-            color: '#ffff',
-            fontSize: 20,
-            textAlign: 'center',
-            fontWeight: 'bold',
-            marginTop: -100,
-            marginLeft: 20,
-          }}>
-         Reyna Liam
-        </Text>
+              color: '#ffff',
+              fontSize: 20,
+              textAlign: 'center',
+              fontWeight: 'bold',
+              marginTop: -100,
+              marginLeft: 20,
+            }}>gemaeka1@gmail.com</Text>
+        </View>
         <Text
           style={{
             color: '#ffff',
             textAlign: 'center',
             fontSize: 15,
-            marginTop: 10,
+            marginTop: -55,
             marginLeft: 20,
           }}>
          Student

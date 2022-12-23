@@ -17,6 +17,7 @@
     "name": "typicode"
   },
   "api": {
+    "id": 1,
     "email": "gemaeka1@gmail.com",
     "password": "Gema1234"
   },
@@ -25,21 +26,46 @@
       "id": 1,
       "title": "the most handsome",
       "pin": "b0Vah",
-      "option": {
-        "option1": "jb",
-        "option2": "jeno",
-        "option3": "mingyu",
-        "option4": "sehun"
-      }
+      "option": [
+        {
+          "key": 0,
+          "value": "Jb"
+        },
+        {
+          "key": 1,
+          "value": "Jeno"
+        }
+      ]
     },
     {
       "id": 2,
       "title": "the most underated of netflix series",
       "pin": "ph1yy",
-      "option": {
-        "option1": "../src/images/wednesday.jpg",
-        "option2": "../src/images/stranger.jpg"
-      }
+      "option": [
+        {
+          "key": 0,
+          "value": "Wednesday"
+        },
+        {
+          "key": 1,
+          "value": "Stranger Things"
+        }
+      ]
+    },
+    {
+      "title": "class president",
+      "pin": "7Uvgh",
+      "option": [
+        {
+          "key": 0,
+          "value": "Norman"
+        },
+        {
+          "key": 1,
+          "value": "Jeno"
+        }
+      ],
+      "id": 3
     }
   ]
 }

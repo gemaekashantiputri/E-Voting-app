@@ -17,26 +17,26 @@ import {
 
 export default function Create ({navigation}){
     
-    const [inputs, setInputs] = useState([{key: '', value: ''}]);
+    const [option, setOption] = useState([{key: '', value: ''}]);
     const [title, setTitle] = useState('');
     const [pin, setPin] = useState('');
 
     const addHandler = ()=>{
-    const _inputs = [...inputs];
-    _inputs.push({key: '', value: ''});
-    setInputs(_inputs);
+    const _option = [...option];
+    _option.push({key: '', value: ''});
+    setOption(_option);
     }
   
     const deleteHandler = (key)=>{
-      const _inputs = inputs.filter((input,index) => index != key);
-      setInputs(_inputs);
+      const _option = option.filter((option,index) => index != key);
+      setOption(_option);
     }
 
-    const inputHandler = (text, key)=>{
-      const _inputs = [...inputs];
-      _inputs[key].value = text;
-      _inputs[key].key   = key;
-      setInputs(_inputs);
+    const optionHandler = (text, key)=>{
+      const _option = [...option];
+      _option[key].value = text;
+      _option[key].key   = key;
+      setOption(_option);
       
     }
 
@@ -44,9 +44,10 @@ export default function Create ({navigation}){
       const data = {
         title,
         pin,
+        option,
       }
       console.log('data before send:', data);
-      axios.post('http://192.168.1.6:3000/voting', data)
+      axios.post('http://192.168.43.146:3000/voting', data)
       .then(res => {
         console.log('res:', res);
         setTitle('');
@@ -99,9 +100,9 @@ export default function Create ({navigation}){
           placeholder= 'Pin Kode'
         />
          <View style={tampilan.container}>
-          {inputs.map((input, key)=>(
+          {option.map((item, key)=>(
           <View style={tampilan.inputContainer}>
-          <TextInput placeholder={"Enter Name"} value={input.value}  onChangeText={(text)=>inputHandler(text,key)}/>
+          <TextInput placeholder={"Add Option"} value={item.value}  onChangeText={(text)=>optionHandler(text,key)}/>
           <TouchableOpacity onPress = {()=> deleteHandler(key)}>
             <Text style={{color: "red", fontSize: 13}}>Delete</Text>
           </TouchableOpacity> 
@@ -123,14 +124,16 @@ export default function Create ({navigation}){
 
 const tampilan = StyleSheet.create({
   inputsContainer: {
-    flex: 1, marginBottom: 20
+    flex: 1,
+    marginBottom: 20,
   },
   inputContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    borderBottomWidth: 1,
-    borderBottomColor: "lightgray"
+    borderBottomColor: '#ffff',
+    width: 200,
+    marginLeft: 100,
   },
   button: {
     backgroundColor: '#0A0A0A',

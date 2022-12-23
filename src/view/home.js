@@ -22,6 +22,18 @@ class Home extends Component {
     };
   }
 
+  /*const showSnackbar = () => { 
+ Snackbar.show({
+  text: 'Login Successed',
+  duration: Snackbar.LENGTH_INDEFINITE,
+  action: {
+    text: 'Ok',
+    textColor: 'green',
+    onPress: () => { /* Do something.  },
+  },
+});
+};
+*/
   jikaKembali = () => {
     Alert.alert('Warning', 'Apakah Mau Keluar Aplikasi?', [
       {
